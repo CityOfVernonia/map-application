@@ -1,0 +1,363 @@
+@import "./../node_modules/@vernonia/core/src/variables";
+
+@import "./headerBackground";
+
+//////////////////////////
+// arcgis js api overrides
+//////////////////////////
+
+// browsers have gotten weird with the focused view outline
+.esri-view .esri-view-surface--inset-outline:focus::after {
+  outline: none !important;
+  outline-offset: 0;
+}
+
+// tighten up ui
+.esri-ui-top-right {
+  top: -5px;
+  right: -5px;
+}
+
+.esri-ui-top-left {
+  top: -5px;
+  left: -5px;
+}
+
+.esri-ui-bottom-left {
+  bottom: -5px;
+  left: -5px;
+}
+
+.esri-ui-bottom-right {
+  bottom: -5px;
+  right: -5px;
+}
+
+// smaller basemap toggle
+.esri-basemap-toggle {
+  width: 59px;
+  height: 59px;
+  .esri-basemap-toggle__container,
+  .esri-basemap-toggle__image {
+    width: 54px;
+    height: 54px;
+    border-radius: var(--calcite-border-radius);
+  }
+}
+
+.map-application {
+  z-index: 1;
+}
+
+.map-application--header {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 38px;
+  padding: 0.5rem 1rem;
+  background: url($header-background), center, center, linear-gradient(90deg, rgba($brand-dark, 1) 0%, rgba($brand, 1) 100%);
+  color: white;
+}
+
+.map-application--header_menu {
+  display: flex;
+  align-items: center;
+
+  calcite-icon {
+    opacity: 0.8;
+    cursor: pointer;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.map-application--header_title {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  gap: 1rem;
+  user-select: none;
+
+  img {
+    height: 1.5rem;
+  }
+
+  div {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 650px) {
+  .map-application--header_title div {
+    display: none;
+  }
+}
+
+.map-application--header_controls {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.map-application--header_search {
+  width: 30vw;
+  min-width: 260px;
+  max-width: 720px;
+  transition: width var(--calcite-animation-timing);
+  // background: rgba($brand-dark, 0.7);
+  background: rgba($brand, 0.6);
+  border-radius: var(--calcite-border-radius);
+  z-index: 5;
+
+  * {
+    outline: none !important;
+  }
+
+  .esri-widget--button {
+    width: 38px;
+  }
+  .esri-widget--button,
+  .esri-input {
+    height: 38px;
+    background-color: transparent;
+    color: white;
+  }
+  .esri-search__input {
+    &::-webkit-input-placeholder,
+    &::placeholder {
+      color: rgba(white, 0.7);
+    }
+  }
+  .esri-search__sources-button {
+    border: none;
+  }
+  .esri-search__submit-button {
+    border: none;
+  }
+  .esri-menu {
+    margin-top: 4px;
+  }
+  .esri-menu__list-item--active,
+  .esri-menu__list-item--active:hover,
+  .esri-menu__list-item--active:focus {
+    background-color: lighten($brand, 40%);
+    border-left-color: $brand;
+  }
+
+  .esri-menu__list-item--focus,
+  .esri-menu__list-item:hover,
+  .esri-menu__list-item:focus {
+    background-color: lighten($brand, 40%);
+  }
+
+  .esri-search__source.esri-menu__list-item:active {
+    background-color: lighten($brand, 30%);
+  }
+}
+
+.map-application--view {
+  width: 100%;
+  height: 100%;
+}
+
+////////////////////////////////////
+/// Loader
+///////////////////////////////////
+
+.map-application--loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  user-select: none;
+  color: var(--calcite-ui-text-2);
+  background-color: var(--calcite-ui-background);
+  transition: opacity 1s;
+
+  * {
+    user-select: none;
+  }
+
+  img {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    width: 20vw;
+    min-width: 8rem;
+    opacity: 0.2;
+    filter: invert(50%) sepia(6%) saturate(2318%) hue-rotate(62deg) brightness(107%) contrast(80%);
+  }
+}
+
+.map-application--loader_title {
+  position: absolute;
+  top: 10vw;
+  left: 20vw;
+  min-width: 120px;
+
+  div {
+    font-size: var(--calcite-font-size-2);
+    margin: 0 0.75rem 1rem;
+  }
+}
+
+.map-application--loader_info {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  line-height: 1.5;
+  font-size: var(--calcite-font-size--1);
+
+  div {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+.map-application--loader_heart,
+.map-application--loader_coffee {
+  width: var(--calcite-font-size--1);
+  height: var(--calcite-font-size--1);
+  margin: 0 0.35rem;
+}
+
+.map-application--loader_heart {
+  color: #d9534f;
+}
+
+.map-application--loader_coffee {
+  color: #be9969;
+}
+
+.map-application--menu {
+  position: absolute;
+  top: 0;
+  left: -260px;
+  bottom: 0;
+  width: 260px;
+  z-index: 1000;
+  background-color: var(--calcite-ui-foreground-1);
+  transition: left var(--calcite-animation-timing) linear;
+
+  &[open=""] {
+    left: 0;
+  }
+}
+
+.map-application--menu_background {
+  display: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: 950;
+  background-color: rgba(0, 0, 0, 0.75);
+
+  &[open=""] {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+
+////////////////////////////////////
+/// ViewControl
+///////////////////////////////////
+
+.map-application--view-control {
+  box-shadow: none !important;
+}
+
+.map-application--view-control_pads {
+  display: flex;
+  flex-flow: column;
+  gap: 0.75rem;
+
+  calcite-action-pad {
+    box-shadow: $box-shadow;
+  }
+}
+
+////////////////////////////////////
+/// UserControl
+///////////////////////////////////
+
+.map-application--user-control {
+  display: flex;
+  align-items: center;
+
+  calcite-icon {
+    opacity: 0.8;
+    cursor: pointer;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  calcite-avatar {
+    cursor: pointer;
+  }
+}
+
+.map-application--user-control_popover {
+  display: flex;
+  flex-flow: column;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+
+  div {
+    font-weight: var(--calcite-font-weight-medium);
+  }
+
+  span {
+    font-size: var(--calcite-font-size--1);
+    color: var(--calcite-ui-text-3);
+  }
+}
+
+.map-application--sign-in {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.map-application--sign-in_content {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 2rem;
+  min-width: 300px;
+  padding: 2rem;
+  background-color: var(--calcite-ui-foreground-1);
+  border: 1px solid var(--calcite-ui-border-1);
+  border-radius: var(--calcite-border-radius);
+}
+
+.map-application--sign-in_title {
+  font-size: var(--calcite-font-size-3);
+  font-weight: var(--calcite-font-weight-medium);
+}
+
+.map-application--sign-in_info {
+  line-height: 1.5;
+  font-size: var(--calcite-font-size--1);
+
+  div {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+  }
+}

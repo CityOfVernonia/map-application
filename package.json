@@ -1,0 +1,76 @@
+{
+  "name": "map-application",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc && sass src/MapApplication.scss:dist/MapApplication.css --style compressed",
+    "dev": "vite",
+    "lint": "eslint . --ext .ts,.tsx",
+    "prettier": "prettier --write \"src/**/*.ts?(x)\"",
+    "test": "npm run prettier && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CityOfVernonia/map-application.git"
+  },
+  "author": "COV-GIS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CityOfVernonia/map-application/issues"
+  },
+  "homepage": "https://github.com/CityOfVernonia/map-application#readme",
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.2",
+    "@types/sortablejs": "^1.15.0",
+    "@typescript-eslint/eslint-plugin": "^5.40.1",
+    "@typescript-eslint/parser": "^5.40.1",
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "sass": "^1.55.0",
+    "tslib": "^2.4.0",
+    "typescript": "^4.8.4",
+    "vite": "3.0.4"
+  },
+  "dependencies": {
+    "@arcgis/core": "^4.24.7",
+    "@esri/calcite-components": "^1.0.0-beta.95",
+    "@vernonia/core": "^2.1.5",
+    "js-cookie": "^3.0.1"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "ignorePatterns": [
+      "package.json",
+      "package-lock.json",
+      "node_modules/**"
+    ],
+    "rules": {
+      "no-console": 0,
+      "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/ban-ts-comment": 1
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "plugins": [
+      "@typescript-eslint"
+    ]
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 120,
+    "tabWidth": 2,
+    "endOfLine": "auto"
+  }
+}
