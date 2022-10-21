@@ -48,6 +48,8 @@
     "ignorePatterns": [
       "package.json",
       "package-lock.json",
+      "dev",
+      "dist",
       "node_modules/**"
     ],
     "rules": {
