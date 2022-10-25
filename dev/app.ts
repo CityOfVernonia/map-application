@@ -15,7 +15,7 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import SearchViewModel from '@arcgis/core/widgets/Search/SearchViewModel';
 
 import MapApplication from './../src/MapApplication';
-import './../src/MapApplication.scss';
+// import './../src/MapApplication.scss';
 
 import Measure from '@vernonia/core/dist/widgets/Measure';
 import '@vernonia/core/dist/widgets/Measure.css';

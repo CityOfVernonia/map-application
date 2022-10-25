@@ -1,12 +1,22 @@
-@import "@vernonia/core/src/variables";
+///////////////////////////////////////////////////
+// vernonia brand colors and variables
+// uncomment to change from MapApplication defaults
+///////////////////////////////////////////////////
+$brand: #6b9560;
+$brand-hover: darken($brand, 7.5);
+$brand-press: darken($brand, 13);
+$link-underline: rgba($brand-press, 0.4);
+$brand-dark: #44693d;
+$box-shadow: 0 1px 2px rgb(0 0 0 / 30%);
 
-@import url("https://fonts.googleapis.com/css?family=Roboto");
+///////
+// font
+///////
+$font-family: "Roboto", sans-serif;
 
 /////////
 // js api
 /////////
-
-$font-family: "Roboto", sans-serif;
 
 // esri widgets to include
 $include_Attribution: true;
@@ -74,3 +84,5 @@ body {
   --calcite-link-blue-underline: #{$link-underline};
   --calcite-sans-family: $font-family;
 }
+
+@import "./../src/MapApplication.scss";
