@@ -151,7 +151,17 @@ export declare const setDisclaimer: (disclaimer: {
  * Return base 64 logo SVG.
  * @returns
  */
-export declare const getLogo: () => string;
+export declare const getLogo: () => string | null;
+/**
+ * Set base 64 logo.
+ * @param logo
+ */
+export declare const setLogo: (logo: string | null) => void;
+/**
+ * Set copyright text.
+ * @param copyright
+ */
+export declare const setCopyright: (copyright: string) => void;
 /**
  * Map application widget.
  */
