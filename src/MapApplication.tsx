@@ -572,6 +572,17 @@ export default class MapApplication extends Widget {
   private _widgets: Collection<tsx.JSX.Element> = new Collection();
 
   //////////////////////////////////////
+  // Public methods
+  //////////////////////////////////////
+  /**
+   * Show (or hide) panel widget by id.
+   * @param id
+   */
+  showWidget(id: string | null): void {
+    this._visiblePanelWidget = id;
+  }
+
+  //////////////////////////////////////
   // Private methods
   //////////////////////////////////////
   /**

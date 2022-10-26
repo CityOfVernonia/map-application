@@ -314,6 +314,16 @@ let MapApplication = class MapApplication extends Widget {
         });
     }
     //////////////////////////////////////
+    // Public methods
+    //////////////////////////////////////
+    /**
+     * Show (or hide) panel widget by id.
+     * @param id
+     */
+    showWidget(id) {
+        this._visiblePanelWidget = id;
+    }
+    //////////////////////////////////////
     // Private methods
     //////////////////////////////////////
     /**

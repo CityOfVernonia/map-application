@@ -187,6 +187,11 @@ export default class MapApplication extends Widget {
     private _visiblePanelWidget;
     private _widgets;
     /**
+     * Show (or hide) panel widget by id.
+     * @param id
+     */
+    showWidget(id: string | null): void;
+    /**
      * Wire action events.
      * @param modal
      * @param widgetId
