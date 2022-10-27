@@ -114,25 +114,6 @@ const INFO = (css) => {
 };
 // Uniqueness
 let KEY = 0;
-/**
- * Temporary work around for tooltip fixed positioning bug @ 1.0.0-beta.95. Remove when fixed.
- * @param element
- */
-const FLOATING_UI_REPOSITION = (element) => {
-    if (element.getAttribute('calcite-hydrated')) {
-        element.reposition();
-    }
-    else {
-        const observer = new MutationObserver(() => {
-            element.reposition();
-            observer.disconnect();
-        });
-        observer.observe(element, {
-            attributes: true,
-            attributeFilter: ['calcite-hydrated'],
-        });
-    }
-};
 //////////////////////////////////////
 // Modules
 //////////////////////////////////////
@@ -296,21 +277,6 @@ let MapApplication = class MapApplication extends Widget {
                 this._menu = new Menu({ menuWidget, title });
             yield view.when();
             loader.end();
-            // Temporary work around for tooltip fixed positioning bug @ 1.0.0-beta.95. Remove when fixed.
-            const floatingUiReposition = () => {
-                document.body.querySelectorAll('calcite-tooltip').forEach((tooltip) => {
-                    tooltip.reposition();
-                });
-                document.body.querySelectorAll('calcite-popover').forEach((popover) => {
-                    popover.reposition();
-                });
-            };
-            document.body.addEventListener('resize', () => {
-                floatingUiReposition();
-            });
-            watch(() => this._visiblePanelWidget, () => {
-                floatingUiReposition();
-            });
         });
     }
     //////////////////////////////////////
@@ -386,7 +352,7 @@ let MapApplication = class MapApplication extends Widget {
             const modal = type === 'calcite-modal' ? document.createElement('calcite-modal') : null;
             actionInfos.push({
                 action: (tsx("calcite-action", { active: widget.id === _visiblePanelWidget, icon: icon, key: KEY++, text: text, afterCreate: this._actionAfterCreate.bind(this, modal, widget.id) },
-                    tsx("calcite-tooltip", { "close-on-click": "", label: text, "overlay-positioning": "fixed", slot: "tooltip", afterCreate: FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION) },
+                    tsx("calcite-tooltip", { "close-on-click": "", label: text, "overlay-positioning": "fixed", slot: "tooltip" },
                         tsx("span", null, text)))),
                 groupEnd,
                 bottomAction,
@@ -448,7 +414,6 @@ let MapApplication = class MapApplication extends Widget {
                 innerHTML: 'Toggle basemap',
             });
             document.body.append(tooltip);
-            FLOATING_UI_REPOSITION(tooltip);
         });
     }
     /**
@@ -557,7 +522,7 @@ let MapApplication = class MapApplication extends Widget {
                     tsx("calcite-icon", { id: menuId, icon: "hamburger", role: "button", onclick: () => {
                             _menu.open = true;
                         } }),
-                    tsx("calcite-tooltip", { "close-on-click": "", label: "Menu", placement: "bottom", "reference-element": menuId, "overlay-positioning": "fixed", afterCreate: FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION) }, "Menu"))) : null,
+                    tsx("calcite-tooltip", { "close-on-click": "", label: "Menu", placement: "bottom", "reference-element": menuId, "overlay-positioning": "fixed" }, "Menu"))) : null,
                 LOGO ? tsx("img", { src: LOGO, alt: COPYRIGHT }) : null,
                 tsx("div", null, title)),
             tsx("div", { class: CSS.headerControls },
@@ -625,7 +590,7 @@ let Menu = class Menu extends Widget {
                 tsx("calcite-action", { icon: "x", slot: "header-actions-end", onclick: () => {
                         this.open = false;
                     } },
-                    tsx("calcite-tooltip", { "close-on-click": "", label: "Close", slot: "tooltip", afterCreate: FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION) }, "Close"))),
+                    tsx("calcite-tooltip", { "close-on-click": "", label: "Close", slot: "tooltip" }, "Close"))),
             tsx("div", { afterCreate: (container) => {
                     menuWidget.container = container;
                 } })));
@@ -823,7 +788,7 @@ let UserControl = class UserControl extends Widget {
         const _id = `user_control_${id}`;
         return signedIn ? (tsx("div", { class: CSS.userControl },
             tsx("calcite-avatar", { id: _id, "full-name": fullName, thumbnail: thumbnailUrl, role: "button" }),
-            tsx("calcite-popover", { "auto-close": "", label: "Sign out", placement: "bottom", "reference-element": _id, "overlay-positioning": "fixed", afterCreate: FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION) },
+            tsx("calcite-popover", { "auto-close": "", label: "Sign out", placement: "bottom", "reference-element": _id, "overlay-positioning": "fixed" },
                 tsx("div", { class: CSS.userControlPopover },
                     tsx("div", null, fullName),
                     tsx("span", null, username),
@@ -934,21 +899,21 @@ let ViewControl = class ViewControl extends Widget {
                 tsx("calcite-action-pad", { "expand-disabled": "" },
                     tsx("calcite-action-group", null,
                         tsx("calcite-action", { text: "Zoom in", icon: "plus", scale: "s", disabled: !zoom.canZoomIn, onclick: zoom.zoomIn.bind(zoom) },
-                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip", afterCreate: FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION) }, "Zoom in")),
+                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip" }, "Zoom in")),
                         tsx("calcite-action", { text: "Zoom out", icon: "minus", scale: "s", disabled: !zoom.canZoomOut, onclick: zoom.zoomOut.bind(zoom) },
-                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip", afterCreate: FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION) }, "Zoom out")))),
+                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip" }, "Zoom out")))),
                 tsx("calcite-action-pad", { "expand-disabled": "" },
                     tsx("calcite-action-group", null,
                         tsx("calcite-action", { text: "Default extent", icon: "home", scale: "s", onclick: home.go.bind(home) },
-                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip", afterCreate: FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION) }, "Default extent")),
+                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip" }, "Default extent")),
                         includeLocate ? (tsx("calcite-action", { text: "Zoom to location", icon: "gps-on", scale: "s", disabled: "", afterCreate: this._initializeLocate.bind(this) },
-                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip", afterCreate: FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION) }, "Zoom to location"))) : null,
+                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip" }, "Zoom to location"))) : null,
                         view.constraints.rotationEnabled ? (tsx("calcite-action", { text: "Reset orientation", icon: "compass-needle", scale: "s", afterCreate: this._compassRotation.bind(this), onclick: () => (view.rotation = 0) },
-                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip", afterCreate: FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION) }, "Reset orientation"))) : null)),
+                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip" }, "Reset orientation"))) : null)),
                 includeFullscreen ? (tsx("calcite-action-pad", { "expand-disabled": "" },
                     tsx("calcite-action-group", null,
                         tsx("calcite-action", { text: "Enter fullscreen", disabled: "", scale: "s", icon: "extent", afterCreate: this._initializeFullscreen.bind(this) },
-                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip", afterCreate: FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION) }, "Enter fullscreen"))))) : null)));
+                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip" }, "Enter fullscreen"))))) : null)));
     }
 };
 ViewControl = __decorate([

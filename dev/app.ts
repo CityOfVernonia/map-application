@@ -67,5 +67,10 @@ new MapApplication({
 
   searchViewModel: new SearchViewModel(),
 
-  // panelWidgets: [],
+  panelWidgets: [{
+    widget: new Measure({ view }),
+    text: 'Measure',
+    icon: 'measure',
+    type: 'calcite-panel',
+  }],
 });

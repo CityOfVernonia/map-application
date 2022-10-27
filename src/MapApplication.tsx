@@ -290,25 +290,6 @@ const INFO = (css: string): tsx.JSX.Element => {
 // Uniqueness
 let KEY = 0;
 
-/**
- * Temporary work around for tooltip fixed positioning bug @ 1.0.0-beta.95. Remove when fixed.
- * @param element
- */
-const FLOATING_UI_REPOSITION = (element: HTMLCalciteTooltipElement | HTMLCalcitePopoverElement): void => {
-  if (element.getAttribute('calcite-hydrated')) {
-    element.reposition();
-  } else {
-    const observer = new MutationObserver(() => {
-      element.reposition();
-      observer.disconnect();
-    });
-    observer.observe(element, {
-      attributes: true,
-      attributeFilter: ['calcite-hydrated'],
-    });
-  }
-};
-
 //////////////////////////////////////
 // Modules
 //////////////////////////////////////
@@ -506,25 +487,6 @@ export default class MapApplication extends Widget {
     await view.when();
 
     loader.end();
-
-    // Temporary work around for tooltip fixed positioning bug @ 1.0.0-beta.95. Remove when fixed.
-    const floatingUiReposition = (): void => {
-      document.body.querySelectorAll('calcite-tooltip').forEach((tooltip: HTMLCalciteTooltipElement): void => {
-        tooltip.reposition();
-      });
-      document.body.querySelectorAll('calcite-popover').forEach((popover: HTMLCalcitePopoverElement): void => {
-        popover.reposition();
-      });
-    };
-    document.body.addEventListener('resize', (): void => {
-      floatingUiReposition();
-    });
-    watch(
-      (): string | null => this._visiblePanelWidget,
-      (): void => {
-        floatingUiReposition();
-      },
-    );
   }
 
   //////////////////////////////////////
@@ -678,13 +640,7 @@ export default class MapApplication extends Widget {
             text={text}
             afterCreate={this._actionAfterCreate.bind(this, modal, widget.id)}
           >
-            <calcite-tooltip
-              close-on-click=""
-              label={text}
-              overlay-positioning="fixed"
-              slot="tooltip"
-              afterCreate={FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION)}
-            >
+            <calcite-tooltip close-on-click="" label={text} overlay-positioning="fixed" slot="tooltip">
               <span>{text}</span>
             </calcite-tooltip>
           </calcite-action>
@@ -775,8 +731,6 @@ export default class MapApplication extends Widget {
       });
 
       document.body.append(tooltip);
-
-      FLOATING_UI_REPOSITION(tooltip);
     });
   }
 
@@ -946,7 +900,6 @@ export default class MapApplication extends Widget {
                 placement="bottom"
                 reference-element={menuId}
                 overlay-positioning="fixed"
-                afterCreate={FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION)}
               >
                 Menu
               </calcite-tooltip>
@@ -1037,12 +990,7 @@ class Menu extends Widget {
               this.open = false;
             }}
           >
-            <calcite-tooltip
-              close-on-click=""
-              label="Close"
-              slot="tooltip"
-              afterCreate={FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION)}
-            >
+            <calcite-tooltip close-on-click="" label="Close" slot="tooltip">
               Close
             </calcite-tooltip>
           </calcite-action>
@@ -1330,7 +1278,6 @@ class UserControl extends Widget {
           placement="bottom"
           reference-element={_id}
           overlay-positioning="fixed"
-          afterCreate={FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION)}
         >
           <div class={CSS.userControlPopover}>
             <div>{fullName}</div>
@@ -1504,13 +1451,7 @@ class ViewControl extends Widget {
                 disabled={!zoom.canZoomIn}
                 onclick={zoom.zoomIn.bind(zoom)}
               >
-                <calcite-tooltip
-                  close-on-click=""
-                  overlay-positioning="fixed"
-                  scale="s"
-                  slot="tooltip"
-                  afterCreate={FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION)}
-                >
+                <calcite-tooltip close-on-click="" overlay-positioning="fixed" scale="s" slot="tooltip">
                   Zoom in
                 </calcite-tooltip>
               </calcite-action>
@@ -1521,13 +1462,7 @@ class ViewControl extends Widget {
                 disabled={!zoom.canZoomOut}
                 onclick={zoom.zoomOut.bind(zoom)}
               >
-                <calcite-tooltip
-                  close-on-click=""
-                  overlay-positioning="fixed"
-                  scale="s"
-                  slot="tooltip"
-                  afterCreate={FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION)}
-                >
+                <calcite-tooltip close-on-click="" overlay-positioning="fixed" scale="s" slot="tooltip">
                   Zoom out
                 </calcite-tooltip>
               </calcite-action>
@@ -1536,13 +1471,7 @@ class ViewControl extends Widget {
           <calcite-action-pad expand-disabled="">
             <calcite-action-group>
               <calcite-action text="Default extent" icon="home" scale="s" onclick={home.go.bind(home)}>
-                <calcite-tooltip
-                  close-on-click=""
-                  overlay-positioning="fixed"
-                  scale="s"
-                  slot="tooltip"
-                  afterCreate={FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION)}
-                >
+                <calcite-tooltip close-on-click="" overlay-positioning="fixed" scale="s" slot="tooltip">
                   Default extent
                 </calcite-tooltip>
               </calcite-action>
@@ -1554,13 +1483,7 @@ class ViewControl extends Widget {
                   disabled=""
                   afterCreate={this._initializeLocate.bind(this)}
                 >
-                  <calcite-tooltip
-                    close-on-click=""
-                    overlay-positioning="fixed"
-                    scale="s"
-                    slot="tooltip"
-                    afterCreate={FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION)}
-                  >
+                  <calcite-tooltip close-on-click="" overlay-positioning="fixed" scale="s" slot="tooltip">
                     Zoom to location
                   </calcite-tooltip>
                 </calcite-action>
@@ -1573,13 +1496,7 @@ class ViewControl extends Widget {
                   afterCreate={this._compassRotation.bind(this)}
                   onclick={() => ((view as esri.MapView).rotation = 0)}
                 >
-                  <calcite-tooltip
-                    close-on-click=""
-                    overlay-positioning="fixed"
-                    scale="s"
-                    slot="tooltip"
-                    afterCreate={FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION)}
-                  >
+                  <calcite-tooltip close-on-click="" overlay-positioning="fixed" scale="s" slot="tooltip">
                     Reset orientation
                   </calcite-tooltip>
                 </calcite-action>
@@ -1596,13 +1513,7 @@ class ViewControl extends Widget {
                   icon="extent"
                   afterCreate={this._initializeFullscreen.bind(this)}
                 >
-                  <calcite-tooltip
-                    close-on-click=""
-                    overlay-positioning="fixed"
-                    scale="s"
-                    slot="tooltip"
-                    afterCreate={FLOATING_UI_REPOSITION.bind(FLOATING_UI_REPOSITION)}
-                  >
+                  <calcite-tooltip close-on-click="" overlay-positioning="fixed" scale="s" slot="tooltip">
                     Enter fullscreen
                   </calcite-tooltip>
                 </calcite-action>
