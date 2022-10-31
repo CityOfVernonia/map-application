@@ -1,6 +1,6 @@
 {
   "name": "@vernonia/map-application",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A map application layout.",
   "scripts": {
     "build": "tsc && sass src/MapApplication.scss:dist/MapApplication.css --style compressed",
@@ -22,20 +22,20 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
     "@types/sortablejs": "^1.15.0",
-    "@typescript-eslint/eslint-plugin": "^5.41.0",
-    "@typescript-eslint/parser": "^5.41.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
     "eslint": "^8.26.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1",
     "sass": "^1.55.0",
-    "tslib": "^2.4.0",
+    "tslib": "^2.4.1",
     "typescript": "^4.8.4",
-    "vite": "3.0.4"
+    "vite": "3.2.2"
   },
   "dependencies": {
     "@arcgis/core": "^4.24.7",
-    "@esri/calcite-components": "^1.0.0-beta.96",
+    "@esri/calcite-components": "^1.0.0-beta.97",
     "@vernonia/core": "^2.1.5",
     "js-cookie": "^3.0.1"
   },
