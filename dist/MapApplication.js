@@ -160,7 +160,7 @@ let Disclaimer = class Disclaimer extends Widget {
     // Render and rendering methods
     //////////////////////////////////////
     render() {
-        return (tsx("calcite-modal", { open: "", "disable-close-button": "", "disable-escape": "", "disable-outside-close": "", width: "s" },
+        return (tsx("calcite-modal", { open: "", "close-button-disabled": "", "escape-disable": "", "outside-close-disabled": "", width: "s" },
             tsx("div", { slot: "header" }, DISCLAIMER_TITLE),
             tsx("div", { slot: "content", afterCreate: (div) => {
                     div.innerHTML = DISCLAIMER_TEXT;
@@ -450,7 +450,7 @@ let MapApplication = class MapApplication extends Widget {
     _shellPanelAfterCreate(shellPanel) {
         const { panelPosition } = this;
         shellPanel.position = panelPosition;
-        shellPanel.slot = 'primary-panel';
+        shellPanel.slot = `panel-${panelPosition}`;
     }
     /**
      * Set view's container.
@@ -504,7 +504,7 @@ let MapApplication = class MapApplication extends Widget {
                     header.container = container;
                 } })) : null,
             shellPanel ? (tsx("calcite-shell-panel", { afterCreate: this._shellPanelAfterCreate.bind(this) })) : null,
-            _actionGroups.length ? (tsx("calcite-shell-panel", { detached: contentBehind, collapsed: !_visiblePanelWidget, position: panelPosition, slot: "primary-panel" },
+            _actionGroups.length ? (tsx("calcite-shell-panel", { detached: contentBehind, collapsed: !_visiblePanelWidget, position: panelPosition, slot: `panel-${panelPosition}` },
                 tsx("calcite-action-bar", { slot: "action-bar", afterCreate: this._viewPadding.bind(this) }, _actionGroups.toArray()),
                 _widgets.toArray())) : null,
             tsx("div", { class: CSS.view, afterCreate: this._viewAfterCreate.bind(this) })));

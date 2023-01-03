@@ -21,7 +21,6 @@ $font-family: "Roboto", sans-serif;
 // esri widgets to include
 $include_Attribution: true;
 $include_BasemapToggle: true;
-$include_Editor: true;
 $include_LayerList: true;
 $include_Legend: true;
 $include_Popup: true;
@@ -43,7 +42,6 @@ html {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: $font-family;
 }
 
 body {
@@ -51,6 +49,7 @@ body {
   background-color: var(--calcite-ui-background);
   color: var(--calcite-ui-text-1);
   font-size: 16px;
+  font-family: $font-family;
 }
 
 //////////////////////////////////////
@@ -64,7 +63,7 @@ body {
   --calcite-ui-brand-press: #{$brand-press};
   --calcite-ui-text-link: #{$brand-hover};
   --calcite-link-blue-underline: #{$link-underline};
-  --calcite-sans-family: $font-family;
+  --calcite-sans-family: #{$font-family};
 }
 
 .calcite-theme-light {
@@ -73,16 +72,89 @@ body {
   --calcite-ui-brand-press: #{$brand-press};
   --calcite-ui-text-link: #{$brand-hover};
   --calcite-link-blue-underline: #{$link-underline};
-  --calcite-sans-family: $font-family;
+  --calcite-sans-family: #{$font-family};
 }
 
-.calcite-theme-dark {
-  --calcite-ui-brand: #{$brand};
-  --calcite-ui-brand-hover: #{$brand-hover};
-  --calcite-ui-brand-press: #{$brand-press};
-  --calcite-ui-text-link: #{$brand-hover};
-  --calcite-link-blue-underline: #{$link-underline};
-  --calcite-sans-family: $font-family;
+//////////////////////////
+// arcgis js api overrides
+//////////////////////////
+
+// browsers have gotten weird with the focused view outline
+.esri-view .esri-view-surface--inset-outline:focus::after {
+  outline: none !important;
+  outline-offset: 0;
+}
+
+// tighten up ui
+.esri-ui-top-right {
+  top: -5px;
+  right: -5px;
+}
+
+// top left heading
+.esri-ui-top-left {
+  top: -5px;
+  left: -5px;
+}
+
+.esri-ui-bottom-left {
+  bottom: -5px;
+  left: -5px;
+}
+
+.esri-ui-bottom-right {
+  bottom: -5px;
+  right: -5px;
+}
+
+// smaller basemap toggle
+.esri-basemap-toggle {
+  width: 59px;
+  height: 59px;
+  .esri-basemap-toggle__container,
+  .esri-basemap-toggle__image {
+    width: 54px;
+    height: 54px;
+    border-radius: var(--calcite-border-radius);
+  }
+}
+
+// popup
+.esri-popup__main-container {
+  border-radius: var(--calcite-border-radius);
+
+  .esri-popup__header-title {
+    font-size: var(--calcite-font-size-0);
+    font-weight: var(--calcite-font-weight-normal);
+    color: $brand-dark;
+  }
+
+  .esri-popup__button {
+    border-radius: var(--calcite-border-radius);
+    color: $brand-dark;
+  }
+
+  .esri-popup__navigation {
+    border-radius: var(--calcite-border-radius);
+  }
+}
+
+// table
+.esri-widget__table {
+  background-color: transparent;
+  border-radius: var(--calcite-border-radius);
+}
+
+.esri-widget__table tr th {
+  border-right: 3px solid rgba($brand, 0.125);
+}
+
+.esri-widget__table tr:nth-child(odd) {
+  background-color: rgba($brand, 0.05);
+}
+
+.esri-widget__table tr:nth-child(even) {
+  background-color: rgba($color: #FFFFFF, $alpha: 0) !important;
 }
 
 @import "./../src/MapApplication.scss";

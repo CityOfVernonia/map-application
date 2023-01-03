@@ -341,7 +341,7 @@ class Disclaimer extends Widget {
   //////////////////////////////////////
   render(): tsx.JSX.Element {
     return (
-      <calcite-modal open="" disable-close-button="" disable-escape="" disable-outside-close="" width="s">
+      <calcite-modal open="" close-button-disabled="" escape-disable="" outside-close-disabled="" width="s">
         <div slot="header">{DISCLAIMER_TITLE}</div>
         <div
           slot="content"
@@ -772,7 +772,7 @@ export default class MapApplication extends Widget {
   private _shellPanelAfterCreate(shellPanel: HTMLCalciteShellPanelElement): void {
     const { panelPosition } = this;
     shellPanel.position = panelPosition;
-    shellPanel.slot = 'primary-panel';
+    shellPanel.slot = `panel-${panelPosition}`;
   }
 
   /**
@@ -861,7 +861,7 @@ export default class MapApplication extends Widget {
             detached={contentBehind}
             collapsed={!_visiblePanelWidget}
             position={panelPosition}
-            slot="primary-panel"
+            slot={`panel-${panelPosition}`}
           >
             <calcite-action-bar slot="action-bar" afterCreate={this._viewPadding.bind(this)}>
               {_actionGroups.toArray()}
