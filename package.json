@@ -1,6 +1,6 @@
 {
   "name": "@vernonia/map-application",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A map application layout.",
   "scripts": {
     "build": "tsc && sass src/MapApplication.scss:dist/MapApplication.css --style compressed",
@@ -22,15 +22,15 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",
     "@types/sortablejs": "^1.15.1",
-    "@typescript-eslint/eslint-plugin": "^5.57.1",
-    "@typescript-eslint/parser": "^5.57.1",
-    "eslint": "^8.37.0",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.7",
-    "sass": "^1.60.0",
+    "sass": "^1.62.0",
     "tslib": "^2.5.0",
-    "typescript": "^5.0.3",
+    "typescript": "^5.0.4",
     "vite": "4.2.1"
   },
   "dependencies": {

@@ -59,6 +59,16 @@ new MapApplication({
 
   view,
 
+  viewControlOptions: {
+    includeFullscreen: true,
+    includeLocate: true,
+    includeMagnifier: true,
+    magnifierProperties: {
+      factor: 2,
+      size: 240,
+    }
+  },
+
   nextBasemap: new Basemap({
     portalItem: {
       id: '2622b9aecacd401583981410e07d5bb9',
@@ -67,10 +77,12 @@ new MapApplication({
 
   searchViewModel: new SearchViewModel(),
 
-  panelWidgets: [{
-    widget: new Measure({ view }),
-    text: 'Measure',
-    icon: 'measure',
-    type: 'calcite-panel',
-  }],
+  panelWidgets: [
+    {
+      widget: new Measure({ view }),
+      text: 'Measure',
+      icon: 'measure',
+      type: 'calcite-panel',
+    },
+  ],
 });

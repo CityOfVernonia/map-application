@@ -133,6 +133,8 @@ export interface MapApplicationProperties extends esri.WidgetProperties {
          * @default false
          */
         includeFullscreen?: boolean;
+        includeMagnifier?: boolean;
+        magnifierProperties?: esri.MagnifierProperties;
     };
 }
 import Accessor from '@arcgis/core/core/Accessor';

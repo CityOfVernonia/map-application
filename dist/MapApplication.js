@@ -248,7 +248,7 @@ let MapApplication = class MapApplication extends Widget {
     }
     postInitialize() {
         return __awaiter(this, void 0, void 0, function* () {
-            const { container, menuWidget, nextBasemap, oAuth, panelPosition, panelWidgets, shellPanel, title, view, view: { ui }, } = this;
+            const { container, menuWidget, nextBasemap, oAuth, panelPosition, panelWidgets, shellPanel, title, viewControlOptions, view, view: { ui }, } = this;
             let { includeDisclaimer } = this;
             const loader = new Loader({ title });
             if (oAuth && oAuth.signedIn)
@@ -256,12 +256,7 @@ let MapApplication = class MapApplication extends Widget {
             if (includeDisclaimer && !Disclaimer.isAccepted())
                 new Disclaimer();
             ui.remove('zoom');
-            ui.add(new ViewControl({
-                view,
-                includeFullscreen: true,
-                includeLocate: true,
-                fullscreenElement: container,
-            }), panelPosition === 'start' ? 'top-right' : 'top-left');
+            ui.add(new ViewControl(Object.assign(Object.assign({ view }, (viewControlOptions || {})), { fullscreenElement: container })), panelPosition === 'start' ? 'top-right' : 'top-left');
             if (nextBasemap)
                 this._createBasemapToggle();
             if (!shellPanel && panelWidgets && panelWidgets.length) {
@@ -307,7 +302,7 @@ let MapApplication = class MapApplication extends Widget {
                 this._visiblePanelWidget = this._visiblePanelWidget === widgetId ? null : widgetId;
             }
         });
-        this.own(watch(() => this._visiblePanelWidget, (id) => {
+        this.addHandles(watch(() => this._visiblePanelWidget, (id) => {
             action.active = id === widgetId;
         }));
     }
@@ -483,7 +478,7 @@ let MapApplication = class MapApplication extends Widget {
      */
     _widgetAfterCreate(widget, container) {
         widget.container = container;
-        this.own(watch(() => this._visiblePanelWidget, (id, oldId) => {
+        this.addHandles(watch(() => this._visiblePanelWidget, (id, oldId) => {
             container.hidden = id !== widget.id;
             if (id === widget.id && widget.onShow && typeof widget.onShow === 'function') {
                 widget.onShow();
@@ -811,11 +806,15 @@ let ViewControl = class ViewControl extends Widget {
         super(properties);
         this.includeFullscreen = false;
         this.includeLocate = false;
+        this.includeMagnifier = false;
     }
     postInitialize() {
-        const { view } = this;
+        const { view, view: { magnifier }, magnifierProperties, } = this;
         this.home = new HomeViewModel({ view });
         this.zoom = new ZoomViewModel({ view });
+        magnifier.visible = false;
+        if (magnifierProperties)
+            Object.assign(magnifier, magnifierProperties);
     }
     //////////////////////////////////////
     // Private methods
@@ -852,7 +851,7 @@ let ViewControl = class ViewControl extends Widget {
             });
             action.addEventListener('click', fullscreen.toggle.bind(fullscreen));
             action.disabled = fullscreen.state === 'disabled' || fullscreen.state === 'feature-unsupported';
-            this.own(watch(() => fullscreen.state, (state) => {
+            this.addHandles(watch(() => fullscreen.state, (state) => {
                 action.disabled = state === 'disabled' || state === 'feature-unsupported';
                 const tooltip = action.querySelector('calcite-tooltip');
                 if (state === 'ready') {
@@ -876,7 +875,7 @@ let ViewControl = class ViewControl extends Widget {
             });
             action.addEventListener('click', locate.locate.bind(locate));
             action.disabled = locate.state === 'disabled';
-            this.own(watch(() => locate.state, (state) => {
+            this.addHandles(watch(() => locate.state, (state) => {
                 action.disabled = state === 'disabled';
                 action.icon =
                     locate.state === 'ready'
@@ -889,11 +888,26 @@ let ViewControl = class ViewControl extends Widget {
             }));
         });
     }
+    _toggleMagnifier() {
+        const { view, view: { magnifier }, _magnifierHandle, } = this;
+        if (magnifier.visible) {
+            magnifier.visible = false;
+            if (_magnifierHandle)
+                _magnifierHandle.remove();
+        }
+        else {
+            magnifier.visible = true;
+            this._magnifierHandle = view.on('pointer-move', (event) => {
+                magnifier.position = { x: event.x, y: event.y };
+            });
+        }
+    }
     //////////////////////////////////////
     // Render and rendering methods
     //////////////////////////////////////
     render() {
-        const { view, zoom, home, includeLocate, includeFullscreen } = this;
+        const { view, zoom, home, includeLocate, includeFullscreen, includeMagnifier } = this;
+        const magnifier = view.magnifier.visible;
         return (tsx("div", { class: CSS.viewControl },
             tsx("div", { class: CSS.viewControlPads },
                 tsx("calcite-action-pad", { "expand-disabled": "" },
@@ -913,7 +927,11 @@ let ViewControl = class ViewControl extends Widget {
                 includeFullscreen ? (tsx("calcite-action-pad", { "expand-disabled": "" },
                     tsx("calcite-action-group", null,
                         tsx("calcite-action", { text: "Enter fullscreen", disabled: "", scale: "s", icon: "extent", afterCreate: this._initializeFullscreen.bind(this) },
-                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip" }, "Enter fullscreen"))))) : null)));
+                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip" }, "Enter fullscreen"))))) : null,
+                includeMagnifier ? (tsx("calcite-action-pad", { "expand-disabled": "" },
+                    tsx("calcite-action-group", null,
+                        tsx("calcite-action", { text: magnifier ? 'Hide magnifier' : 'Show magnifier', scale: "s", icon: "magnifying-glass", indicator: magnifier ? true : false, onclick: this._toggleMagnifier.bind(this) },
+                            tsx("calcite-tooltip", { "close-on-click": "", "overlay-positioning": "fixed", scale: "s", slot: "tooltip" }, magnifier ? 'Hide magnifier' : 'Show magnifier'))))) : null)));
     }
 };
 ViewControl = __decorate([

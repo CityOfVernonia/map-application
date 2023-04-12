@@ -134,6 +134,10 @@ export interface MapApplicationProperties extends esri.WidgetProperties {
      * @default false
      */
     includeFullscreen?: boolean;
+
+    includeMagnifier?: boolean;
+
+    magnifierProperties?: esri.MagnifierProperties;
   };
 }
 
@@ -444,6 +448,7 @@ export default class MapApplication extends Widget {
       panelWidgets,
       shellPanel,
       title,
+      viewControlOptions,
       view,
       view: { ui },
     } = this;
@@ -461,8 +466,7 @@ export default class MapApplication extends Widget {
     ui.add(
       new ViewControl({
         view,
-        includeFullscreen: true,
-        includeLocate: true,
+        ...(viewControlOptions || {}),
         fullscreenElement: container,
       }),
       panelPosition === 'start' ? 'top-right' : 'top-left',
@@ -566,7 +570,7 @@ export default class MapApplication extends Widget {
       }
     });
 
-    this.own(
+    this.addHandles(
       watch(
         (): string | null => this._visiblePanelWidget,
         (id?: string | null): void => {
@@ -819,7 +823,7 @@ export default class MapApplication extends Widget {
   ): void {
     widget.container = container;
 
-    this.own(
+    this.addHandles(
       watch(
         (): string | null => this._visiblePanelWidget,
         (id: any, oldId: any): void => {
@@ -1318,9 +1322,15 @@ class ViewControl extends Widget {
   }
 
   postInitialize(): void {
-    const { view } = this;
+    const {
+      view,
+      view: { magnifier },
+      magnifierProperties,
+    } = this;
     this.home = new HomeViewModel({ view });
     this.zoom = new ZoomViewModel({ view });
+    magnifier.visible = false;
+    if (magnifierProperties) Object.assign(magnifier, magnifierProperties);
   }
 
   //////////////////////////////////////
@@ -1331,6 +1341,10 @@ class ViewControl extends Widget {
   includeFullscreen = false;
 
   includeLocate = false;
+
+  includeMagnifier = false;
+
+  magnifierProperties!: esri.MagnifierProperties;
 
   view!: esri.MapView;
 
@@ -1378,7 +1392,7 @@ class ViewControl extends Widget {
       action.addEventListener('click', fullscreen.toggle.bind(fullscreen));
       action.disabled = fullscreen.state === 'disabled' || fullscreen.state === 'feature-unsupported';
 
-      this.own(
+      this.addHandles(
         watch(
           (): esri.FullscreenViewModel['state'] => fullscreen.state,
           (state?: esri.FullscreenViewModel['state']): void => {
@@ -1413,7 +1427,7 @@ class ViewControl extends Widget {
       action.addEventListener('click', locate.locate.bind(locate));
       action.disabled = locate.state === 'disabled';
 
-      this.own(
+      this.addHandles(
         watch(
           (): esri.LocateViewModel['state'] => locate.state,
           (state?: esri.LocateViewModel['state']): void => {
@@ -1433,11 +1447,32 @@ class ViewControl extends Widget {
     });
   }
 
+  private _magnifierHandle!: IHandle;
+
+  private _toggleMagnifier(): void {
+    const {
+      view,
+      view: { magnifier },
+      _magnifierHandle,
+    } = this;
+    if (magnifier.visible) {
+      magnifier.visible = false;
+      if (_magnifierHandle) _magnifierHandle.remove();
+    } else {
+      magnifier.visible = true;
+      this._magnifierHandle = view.on('pointer-move', (event: esri.ViewPointerMoveEvent): void => {
+        magnifier.position = { x: event.x, y: event.y };
+      });
+    }
+  }
+
   //////////////////////////////////////
   // Render and rendering methods
   //////////////////////////////////////
   render(): tsx.JSX.Element {
-    const { view, zoom, home, includeLocate, includeFullscreen } = this;
+    const { view, zoom, home, includeLocate, includeFullscreen, includeMagnifier } = this;
+
+    const magnifier = view.magnifier.visible;
 
     return (
       <div class={CSS.viewControl}>
@@ -1515,6 +1550,23 @@ class ViewControl extends Widget {
                 >
                   <calcite-tooltip close-on-click="" overlay-positioning="fixed" scale="s" slot="tooltip">
                     Enter fullscreen
+                  </calcite-tooltip>
+                </calcite-action>
+              </calcite-action-group>
+            </calcite-action-pad>
+          ) : null}
+          {includeMagnifier ? (
+            <calcite-action-pad expand-disabled="">
+              <calcite-action-group>
+                <calcite-action
+                  text={magnifier ? 'Hide magnifier' : 'Show magnifier'}
+                  scale="s"
+                  icon="magnifying-glass"
+                  indicator={magnifier ? true : false}
+                  onclick={this._toggleMagnifier.bind(this)}
+                >
+                  <calcite-tooltip close-on-click="" overlay-positioning="fixed" scale="s" slot="tooltip">
+                    {magnifier ? 'Hide magnifier' : 'Show magnifier'}
                   </calcite-tooltip>
                 </calcite-action>
               </calcite-action-group>

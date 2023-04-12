@@ -8,6 +8,29 @@ $link-underline: rgba($brand-press, 0.4) !default;
 $brand-dark: #44693d !default;
 $box-shadow: 0 1px 2px rgb(0 0 0 / 30%) !default;
 
+//////////////////////////////////////
+// calcite and arcgis js api variables
+//////////////////////////////////////
+
+:root {
+  --calcite-ui-brand: #{$brand};
+  --calcite-ui-brand-dark: #{$brand-dark};
+  --calcite-ui-brand-hover: #{$brand-hover};
+  --calcite-ui-brand-press: #{$brand-press};
+  --calcite-ui-text-link: #{$brand-hover};
+  --calcite-link-blue-underline: #{$link-underline};
+  // --calcite-sans-family: #{$font-family};
+}
+
+.calcite-mode-light {
+  --calcite-ui-brand: #{$brand};
+  --calcite-ui-brand-hover: #{$brand-hover};
+  --calcite-ui-brand-press: #{$brand-press};
+  --calcite-ui-text-link: #{$brand-hover};
+  --calcite-link-blue-underline: #{$link-underline};
+  // --calcite-sans-family: #{$font-family};
+}
+
 @import "./headerBackground";
 
 //////////////////////////
