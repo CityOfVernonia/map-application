@@ -1,16 +1,8 @@
-//////////////////////////////////////
-// vernonia brand colors and variables
-//////////////////////////////////////
-$brand: #6b9560 !default;
-$brand-hover: darken($brand, 7.5) !default;
-$brand-press: darken($brand, 13) !default;
-$link-underline: rgba($brand-press, 0.4) !default;
-$brand-dark: #44693d !default;
-$box-shadow: 0 1px 2px rgb(0 0 0 / 30%) !default;
+@import "variables";
 
-//////////////////////////////////////
-// calcite and arcgis js api variables
-//////////////////////////////////////
+///////////////////////////////////////
+/// calcite and arcgis js api variables
+///////////////////////////////////////
 
 :root {
   --calcite-ui-brand: #{$brand};
@@ -19,7 +11,7 @@ $box-shadow: 0 1px 2px rgb(0 0 0 / 30%) !default;
   --calcite-ui-brand-press: #{$brand-press};
   --calcite-ui-text-link: #{$brand-hover};
   --calcite-link-blue-underline: #{$link-underline};
-  // --calcite-sans-family: #{$font-family};
+  --calcite-sans-family: #{$font-family};
 }
 
 .calcite-mode-light {
@@ -28,14 +20,12 @@ $box-shadow: 0 1px 2px rgb(0 0 0 / 30%) !default;
   --calcite-ui-brand-press: #{$brand-press};
   --calcite-ui-text-link: #{$brand-hover};
   --calcite-link-blue-underline: #{$link-underline};
-  // --calcite-sans-family: #{$font-family};
+  --calcite-sans-family: #{$font-family};
 }
 
-@import "./headerBackground";
-
-//////////////////////////
-// arcgis js api overrides
-//////////////////////////
+///////////////////////////
+/// arcgis js api overrides
+///////////////////////////
 
 // browsers have gotten weird with the focused view outline
 .esri-view .esri-view-surface--inset-outline:focus::after {
@@ -75,6 +65,50 @@ $box-shadow: 0 1px 2px rgb(0 0 0 / 30%) !default;
     border-radius: var(--calcite-border-radius);
   }
 }
+
+// popup
+.esri-popup__main-container {
+  border-radius: var(--calcite-border-radius);
+
+  .esri-popup__header-title {
+    font-size: var(--calcite-font-size-0);
+    font-weight: var(--calcite-font-weight-normal);
+    color: $brand-dark;
+  }
+
+  .esri-popup__button {
+    border-radius: var(--calcite-border-radius);
+    color: $brand-dark;
+  }
+
+  .esri-popup__navigation {
+    border-radius: var(--calcite-border-radius);
+  }
+}
+
+// table
+.esri-widget__table {
+  background-color: transparent;
+  border-radius: var(--calcite-border-radius);
+}
+
+.esri-widget__table tr th {
+  border-right: 3px solid rgba($brand, 0.125);
+}
+
+.esri-widget__table tr:nth-child(odd) {
+  background-color: rgba($brand, 0.05);
+}
+
+.esri-widget__table tr:nth-child(even) {
+  background-color: rgba($color: #FFFFFF, $alpha: 0) !important;
+}
+
+////////////////////////////////////
+/// MapApplication
+///////////////////////////////////
+
+@import "./headerBackground";
 
 .map-application {
   z-index: 1;
