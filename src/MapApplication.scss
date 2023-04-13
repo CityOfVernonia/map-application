@@ -108,6 +108,22 @@
 /// MapApplication
 ///////////////////////////////////
 
+body,
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  background-color: var(--calcite-ui-background);
+  color: var(--calcite-ui-text-1);
+  font-size: 16px;
+  font-family: $font-family;
+}
+
 @import "./headerBackground";
 
 .map-application {

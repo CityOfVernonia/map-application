@@ -1,6 +1,6 @@
 {
   "name": "@vernonia/map-application",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A map application layout.",
   "scripts": {
     "build": "tsc && sass src/MapApplication.scss:dist/MapApplication.css --style compressed",
