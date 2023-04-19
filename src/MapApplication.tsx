@@ -773,10 +773,11 @@ export default class MapApplication extends Widget {
    * Set shell panel container properties.
    * @param shellPanel
    */
-  private _shellPanelAfterCreate(shellPanel: HTMLCalciteShellPanelElement): void {
-    const { panelPosition } = this;
-    shellPanel.position = panelPosition;
-    shellPanel.slot = `panel-${panelPosition}`;
+  private _shellPanelAfterCreate(_shellPanel: HTMLCalciteShellPanelElement): void {
+    const { shellPanel, panelPosition } = this;
+    shellPanel.container = _shellPanel;
+    _shellPanel.position = panelPosition;
+    _shellPanel.slot = `panel-${panelPosition}`;
   }
 
   /**

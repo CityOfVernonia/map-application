@@ -442,10 +442,11 @@ let MapApplication = class MapApplication extends Widget {
      * Set shell panel container properties.
      * @param shellPanel
      */
-    _shellPanelAfterCreate(shellPanel) {
-        const { panelPosition } = this;
-        shellPanel.position = panelPosition;
-        shellPanel.slot = `panel-${panelPosition}`;
+    _shellPanelAfterCreate(_shellPanel) {
+        const { shellPanel, panelPosition } = this;
+        shellPanel.container = _shellPanel;
+        _shellPanel.position = panelPosition;
+        _shellPanel.slot = `panel-${panelPosition}`;
     }
     /**
      * Set view's container.
