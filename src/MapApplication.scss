@@ -12,6 +12,8 @@
   --calcite-ui-text-link: #{$brand-hover};
   --calcite-link-blue-underline: #{$link-underline};
   --calcite-sans-family: #{$font-family};
+  // why?
+  --calcite-ui-focus-offset-invert: 0;
 }
 
 .calcite-mode-light {
