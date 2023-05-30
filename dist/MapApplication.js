@@ -500,7 +500,7 @@ let MapApplication = class MapApplication extends Widget {
                     header.container = container;
                 } })) : null,
             shellPanel ? (tsx("calcite-shell-panel", { afterCreate: this._shellPanelAfterCreate.bind(this) })) : null,
-            _actionGroups.length ? (tsx("calcite-shell-panel", { detached: contentBehind, collapsed: !_visiblePanelWidget, position: panelPosition, slot: `panel-${panelPosition}` },
+            _actionGroups.length ? (tsx("calcite-shell-panel", { "display-mode": contentBehind ? 'float' : 'dock', collapsed: !_visiblePanelWidget, position: panelPosition, slot: `panel-${panelPosition}` },
                 tsx("calcite-action-bar", { slot: "action-bar", afterCreate: this._viewPadding.bind(this) }, _actionGroups.toArray()),
                 _widgets.toArray())) : null,
             tsx("div", { class: CSS.view, afterCreate: this._viewAfterCreate.bind(this) })));

@@ -134,6 +134,10 @@ body {
 
 .map-application {
   z-index: 1;
+
+  calcite-shell-panel {
+    z-index: 1;
+  }
 }
 
 .map-application--header {

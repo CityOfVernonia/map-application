@@ -863,7 +863,7 @@ export default class MapApplication extends Widget {
         ) : null}
         {_actionGroups.length ? (
           <calcite-shell-panel
-            detached={contentBehind}
+            display-mode={contentBehind ? 'float' : 'dock'}
             collapsed={!_visiblePanelWidget}
             position={panelPosition}
             slot={`panel-${panelPosition}`}
