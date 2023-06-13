@@ -601,7 +601,7 @@ Menu = __decorate([
 /**
  * Module for handling auth.
  */
-let OAuth = class OAuth extends Accessor {
+export let OAuth = class OAuth extends Accessor {
     //////////////////////////////////////
     // Lifecycle
     //////////////////////////////////////
@@ -736,11 +736,10 @@ __decorate([
 OAuth = __decorate([
     subclass('OAuth')
 ], OAuth);
-export { OAuth };
 /**
  * Sign in widget to force auth on application load.
  */
-let SignIn = class SignIn extends Widget {
+export let SignIn = class SignIn extends Widget {
     constructor(properties) {
         super(properties);
         //////////////////////////////////////
@@ -765,7 +764,6 @@ let SignIn = class SignIn extends Widget {
 SignIn = __decorate([
     subclass('SignIn')
 ], SignIn);
-export { SignIn };
 /**
  * User control widget (internal).
  */
