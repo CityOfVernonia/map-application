@@ -90,6 +90,20 @@
   .esri-popup__button {
     border-radius: var(--calcite-border-radius);
     color: $brand-dark;
+    &:hover {
+      background-color: $brand-popup-button-hover-background;
+    }
+  }
+
+  .esri-popup__header-container--button,
+  .esri-popup__pagination-previous,
+  .esri-popup__pagination-next,
+  .esri-popup__feature-menu-button {
+    color: $brand-dark;
+    border-radius: 0;
+    &:hover {
+      background-color: $brand-popup-button-hover-background;
+    }
   }
 
   .esri-popup__navigation {
