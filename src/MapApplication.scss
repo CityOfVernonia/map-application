@@ -106,9 +106,17 @@
     }
   }
 
+  .esri-popup__feature-menu-item--selected {
+    background-color: $brand-popup-selected-background;
+  }
+
   .esri-popup__navigation {
     border-radius: var(--calcite-border-radius);
   }
+}
+
+.esri-popup--feature-menu-open .esri-popup__feature-menu-button {
+  background-color: $brand-popup-selected-background;
 }
 
 // table
