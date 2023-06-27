@@ -444,6 +444,8 @@ let MapApplication = class MapApplication extends Widget {
      */
     _shellPanelAfterCreate(_shellPanel) {
         const { shellPanel, panelPosition } = this;
+        if (!shellPanel)
+            return;
         shellPanel.container = _shellPanel;
         _shellPanel.position = panelPosition;
         _shellPanel.slot = `panel-${panelPosition}`;
@@ -825,6 +827,7 @@ let ViewControl = class ViewControl extends Widget {
         if (action.shadowRoot) {
             icon = action.shadowRoot.querySelector('.icon-container');
             if (icon) {
+                icon.style.transform = `rotate(${view.rotation}deg)`;
                 this.watch('view.rotation', () => {
                     icon.style.transform = `rotate(${view.rotation}deg)`;
                 });

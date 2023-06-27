@@ -14,7 +14,7 @@ import Basemap from '@arcgis/core/Basemap';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import SearchViewModel from '@arcgis/core/widgets/Search/SearchViewModel';
 
-import MapApplication from './../src/MapApplication';
+import MapApplication, { setCopyright } from './../src/MapApplication';
 // import './../src/MapApplication.scss';
 
 import Measure from '@vernonia/core/dist/widgets/Measure';
@@ -54,6 +54,8 @@ const view = new MapView({
   },
 });
 
+setCopyright('COV GIS');
+
 new MapApplication({
   title: 'Map Application',
 
@@ -66,7 +68,7 @@ new MapApplication({
     magnifierProperties: {
       factor: 2,
       size: 240,
-    }
+    },
   },
 
   nextBasemap: new Basemap({

@@ -498,24 +498,24 @@ export default class MapApplication extends Widget {
   //////////////////////////////////////
   contentBehind = true;
 
-  header!: Widget | false;
+  header?: Widget | false;
 
   includeDisclaimer = true;
 
   menuWidget?: Widget;
 
-  nextBasemap!: esri.Basemap;
+  nextBasemap?: esri.Basemap;
 
-  oAuth!: OAuth;
+  oAuth?: OAuth;
 
   panelPosition: _types['panelPosition'] = 'start';
 
   @property({ type: Collection })
-  panelWidgets!: esri.Collection<PanelWidget>;
+  panelWidgets?: esri.Collection<PanelWidget>;
 
-  shellPanel!: esri.Widget;
+  shellPanel?: esri.Widget;
 
-  searchViewModel!: esri.SearchViewModel;
+  searchViewModel?: esri.SearchViewModel;
 
   title = 'Vernonia';
 
@@ -775,6 +775,7 @@ export default class MapApplication extends Widget {
    */
   private _shellPanelAfterCreate(_shellPanel: HTMLCalciteShellPanelElement): void {
     const { shellPanel, panelPosition } = this;
+    if (!shellPanel) return;
     shellPanel.container = _shellPanel;
     _shellPanel.position = panelPosition;
     _shellPanel.slot = `panel-${panelPosition}`;
@@ -1366,6 +1367,7 @@ class ViewControl extends Widget {
     if (action.shadowRoot) {
       icon = action.shadowRoot.querySelector('.icon-container') as HTMLDivElement;
       if (icon) {
+        icon.style.transform = `rotate(${view.rotation}deg)`;
         this.watch('view.rotation', (): void => {
           icon.style.transform = `rotate(${view.rotation}deg)`;
         });
