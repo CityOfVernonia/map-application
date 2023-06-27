@@ -1,13 +1,12 @@
 {
   "name": "@vernonia/map-application",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "type": "module",
   "description": "A map application layout.",
   "scripts": {
     "build": "tsc && sass src/MapApplication.scss:dist/MapApplication.css --style compressed",
     "dev": "vite",
     "lint": "eslint . --ext .ts,.tsx",
-    "postinstall": "node ./scripts/postinstall.js",
     "prettier": "prettier --write \"src/**/*.ts?(x)\"",
     "test": "npm run prettier && npm run lint"
   },
