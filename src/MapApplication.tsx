@@ -21,7 +21,7 @@ interface _types {
  * Properties to initialize a widget in the shell panel with an action in the action bar.
  * Must return a `calcite-panel`, `calcite-flow`, `calcite-modal`, or `div` VNode; widget `container` property must not be set; and corresponding VNode `type` must be provided.
  */
-interface PanelWidget extends Object {
+interface PanelWidget {
   /**
    * Groups all actions into bottom actions slot.
    * `groupEnd` has no effect on bottom slotted actions.
