@@ -11,6 +11,7 @@ import { tsx } from '@arcgis/core/widgets/support/widget';
 import HomeViewModel from '@arcgis/core/widgets/Home/HomeViewModel';
 import ZoomViewModel from '@arcgis/core/widgets/Zoom/ZoomViewModel';
 import Cookies from 'js-cookie';
+import md5 from 'md5';
 //////////////////////////////////////
 // Constants
 //////////////////////////////////////
@@ -38,6 +39,9 @@ const CSS = {
     signInContent: 'map-application--sign-in_content',
     signInTitle: 'map-application--sign-in_title',
     signInInfo: 'map-application--sign-in_info',
+    // simple sign in
+    simpleSignIn: 'map-application--simple-sign-in',
+    simpleSignInContent: 'map-application--simple-sign-in_content',
     // user control
     userControl: 'map-application--user-control',
     userControlPopover: 'map-application--user-control_popover',
@@ -53,6 +57,9 @@ let DISCLAIMER_TEXT = `The purpose of this application is to support City busine
 The City of Vernonia makes every effort to keep this information current and accurate. However, the City is not responsible for 
 errors, misuse, omissions, or misinterpretations. There are no warranties, expressed or implied, including the warranty of 
 merchantability or fitness for a particular purpose, accompanying this application.`;
+// Simple sign in
+const SIMPLE_SIGN_IN_COOKIE_NAME = '_ss_accepted';
+const SIMPLE_SIGN_IN_COOKIE_VALUE = 'signed_in';
 /**
  * Set disclaimer title and text.
  * @param disclaimer
@@ -766,6 +773,99 @@ export let SignIn = class SignIn extends Widget {
 SignIn = __decorate([
     subclass('SignIn')
 ], SignIn);
+/**
+ * Simple sign in widget. NOT FOR SECURE APPLICATIONS!
+ */
+export let SimpleSignIn = class SimpleSignIn extends Widget {
+    constructor(properties) {
+        super(properties);
+        //////////////////////////////////////
+        // Lifecycle
+        //////////////////////////////////////
+        this.container = document.createElement('div');
+        this.title = 'Vernonia';
+        document.body.appendChild(this.container);
+    }
+    //////////////////////////////////////
+    // Static methods
+    //////////////////////////////////////
+    /**
+     * Check if signed in.
+     * @returns boolean
+     */
+    static isSignedIn() {
+        const cookie = Cookies.get(SIMPLE_SIGN_IN_COOKIE_NAME);
+        return cookie && cookie === SIMPLE_SIGN_IN_COOKIE_VALUE ? true : false;
+    }
+    //////////////////////////////////////
+    // Private methods
+    //////////////////////////////////////
+    _signIn(event) {
+        const { userHash, passwordHash } = this;
+        event.preventDefault();
+        const form = event.target;
+        const user = form.querySelector('calcite-input[type=text]');
+        const password = form.querySelector('calcite-input[type=password]');
+        if (!user.value) {
+            user.status = 'invalid';
+            user.setFocus();
+            return;
+        }
+        else {
+            user.status = 'idle';
+        }
+        if (!password.value) {
+            password.status = 'invalid';
+            password.setFocus();
+            return;
+        }
+        else {
+            password.status = 'idle';
+        }
+        const _userHash = md5(user.value);
+        const _passwordHash = md5(password.value);
+        if (userHash !== _userHash) {
+            user.status = 'invalid';
+            user.setFocus();
+            return;
+        }
+        else {
+            user.status = 'idle';
+        }
+        if (passwordHash !== _passwordHash) {
+            password.status = 'invalid';
+            password.setFocus();
+            return;
+        }
+        else {
+            password.status = 'idle';
+        }
+        Cookies.set(SIMPLE_SIGN_IN_COOKIE_NAME, SIMPLE_SIGN_IN_COOKIE_VALUE, { expires: 30 });
+        this.emit('signed-in');
+    }
+    //////////////////////////////////////
+    // Render and rendering methods
+    //////////////////////////////////////
+    render() {
+        const { title } = this;
+        return (tsx("div", { class: CSS.simpleSignIn },
+            tsx("div", { class: CSS.simpleSignInContent },
+                tsx("div", null, title),
+                tsx("form", { afterCreate: (form) => {
+                        form.addEventListener('submit', this._signIn.bind(this));
+                    } },
+                    tsx("calcite-label", null,
+                        "User",
+                        tsx("calcite-input", { type: "text" })),
+                    tsx("calcite-label", null,
+                        "Password",
+                        tsx("calcite-input", { type: "password" })),
+                    tsx("calcite-button", { type: "submit", width: "full" }, "Sign In")))));
+    }
+};
+SimpleSignIn = __decorate([
+    subclass('SimpleSignIn')
+], SimpleSignIn);
 /**
  * User control widget (internal).
  */

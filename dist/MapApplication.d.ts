@@ -320,4 +320,35 @@ export declare class SignIn extends Widget {
     title: string;
     render(): tsx.JSX.Element;
 }
+/**
+ * Simple sign in widget. NOT FOR SECURE APPLICATIONS!
+ */
+export declare class SimpleSignIn extends Widget {
+    container: HTMLDivElement;
+    constructor(properties: esri.WidgetProperties & {
+        /**
+         * User md5 hash.
+         */
+        userHash: string;
+        /**
+         * Password md5 hash.
+         */
+        passwordHash: string;
+        /**
+         * Application title.
+         * @default 'Vernonia'
+         */
+        title?: string;
+    });
+    /**
+     * Check if signed in.
+     * @returns boolean
+     */
+    static isSignedIn(): boolean;
+    userHash: string;
+    passwordHash: string;
+    title: string;
+    private _signIn;
+    render(): tsx.JSX.Element;
+}
 export {};

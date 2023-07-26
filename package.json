@@ -1,6 +1,6 @@
 {
   "name": "@vernonia/map-application",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "type": "module",
   "description": "A map application layout.",
   "scripts": {
@@ -22,6 +22,7 @@
   "homepage": "https://github.com/CityOfVernonia/map-application#readme",
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",
+    "@types/md5": "^2.3.2",
     "@types/sortablejs": "^1.15.1",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "@typescript-eslint/parser": "^6.2.0",
@@ -40,7 +41,8 @@
     "@arcgis/core": "^4.27.6",
     "@esri/calcite-components": "^1.4.3",
     "@vernonia/core": "^2.2.2",
-    "js-cookie": "^3.0.5"
+    "js-cookie": "^3.0.5",
+    "md5": "^2.3.0"
   },
   "eslintConfig": {
     "env": {
