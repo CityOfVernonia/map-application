@@ -14,6 +14,9 @@ import Basemap from '@arcgis/core/Basemap';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import SearchViewModel from '@arcgis/core/widgets/Search/SearchViewModel';
 
+import Graphic from '@arcgis/core/Graphic';
+import { SimpleMarkerSymbol } from '@arcgis/core/symbols';
+
 import MapApplication, { setCopyright } from './../src/MapApplication';
 // import './../src/MapApplication.scss';
 
@@ -64,6 +67,14 @@ new MapApplication({
   viewControlOptions: {
     includeFullscreen: true,
     includeLocate: true,
+    locateProperties: {
+      graphic: new Graphic({
+        symbol: new SimpleMarkerSymbol({
+          size: 0,
+          outline: { width: 0 },
+        }),
+      }),
+    },
     includeMagnifier: true,
     magnifierProperties: {
       factor: 2,

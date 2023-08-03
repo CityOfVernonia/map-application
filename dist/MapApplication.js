@@ -970,11 +970,9 @@ let ViewControl = class ViewControl extends Widget {
         });
     }
     _initializeLocate(action) {
-        const { view } = this;
+        const { view, locateProperties } = this;
         import('@arcgis/core/widgets/Locate/LocateViewModel').then((module) => {
-            const locate = new module.default({
-                view,
-            });
+            const locate = new module.default(Object.assign({ view }, locateProperties));
             action.addEventListener('click', locate.locate.bind(locate));
             action.disabled = locate.state === 'disabled';
             this.addHandles(watch(() => locate.state, (state) => {

@@ -130,13 +130,22 @@ export interface MapApplicationProperties extends esri.WidgetProperties {
      */
     includeLocate?: boolean;
     /**
+     * Locate properties.
+     */
+    locateProperties?: esri.LocateProperties;
+    /**
      * Include fullscreen toggle button.
      * @default false
      */
     includeFullscreen?: boolean;
-
+    /**
+     * Include magnifier toggle button.
+     * @default false
+     */
     includeMagnifier?: boolean;
-
+    /**
+     * Magnifier properties.
+     */
     magnifierProperties?: esri.MagnifierProperties;
   };
 }
@@ -1486,6 +1495,8 @@ class ViewControl extends Widget {
 
   includeLocate = false;
 
+  locateProperties!: esri.LocateProperties;
+
   includeMagnifier = false;
 
   magnifierProperties!: esri.MagnifierProperties;
@@ -1562,11 +1573,12 @@ class ViewControl extends Widget {
   }
 
   private _initializeLocate(action: HTMLCalciteActionElement): void {
-    const { view } = this;
+    const { view, locateProperties } = this;
 
     import('@arcgis/core/widgets/Locate/LocateViewModel').then((module: any) => {
       const locate = new (module.default as esri.LocateViewModelConstructor)({
         view,
+        ...locateProperties,
       });
 
       action.addEventListener('click', locate.locate.bind(locate));

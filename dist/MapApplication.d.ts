@@ -129,11 +129,22 @@ export interface MapApplicationProperties extends esri.WidgetProperties {
          */
         includeLocate?: boolean;
         /**
+         * Locate properties.
+         */
+        locateProperties?: esri.LocateProperties;
+        /**
          * Include fullscreen toggle button.
          * @default false
          */
         includeFullscreen?: boolean;
+        /**
+         * Include magnifier toggle button.
+         * @default false
+         */
         includeMagnifier?: boolean;
+        /**
+         * Magnifier properties.
+         */
         magnifierProperties?: esri.MagnifierProperties;
     };
 }
