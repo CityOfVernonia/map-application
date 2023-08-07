@@ -458,7 +458,6 @@ export default class MapApplication extends Widget {
 
   async postInitialize(): Promise<void> {
     const {
-      container,
       menuWidget,
       nextBasemap,
       oAuth,
@@ -485,7 +484,6 @@ export default class MapApplication extends Widget {
       new ViewControl({
         view,
         ...(viewControlOptions || {}),
-        fullscreenElement: container,
       }),
       panelPosition === 'start' ? 'top-right' : 'top-left',
     );
@@ -1489,7 +1487,7 @@ class ViewControl extends Widget {
   //////////////////////////////////////
   // Properties
   //////////////////////////////////////
-  fullscreenElement!: HTMLElement;
+  fullscreenElement = document.body;
 
   includeFullscreen = false;
 

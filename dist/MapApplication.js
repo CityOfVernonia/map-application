@@ -255,7 +255,7 @@ let MapApplication = class MapApplication extends Widget {
     }
     postInitialize() {
         return __awaiter(this, void 0, void 0, function* () {
-            const { container, menuWidget, nextBasemap, oAuth, panelPosition, panelWidgets, shellPanel, title, viewControlOptions, view, view: { ui }, } = this;
+            const { menuWidget, nextBasemap, oAuth, panelPosition, panelWidgets, shellPanel, title, viewControlOptions, view, view: { ui }, } = this;
             let { includeDisclaimer } = this;
             const loader = new Loader({ title });
             if (oAuth && oAuth.signedIn)
@@ -263,7 +263,7 @@ let MapApplication = class MapApplication extends Widget {
             if (includeDisclaimer && !Disclaimer.isAccepted())
                 new Disclaimer();
             ui.remove('zoom');
-            ui.add(new ViewControl(Object.assign(Object.assign({ view }, (viewControlOptions || {})), { fullscreenElement: container })), panelPosition === 'start' ? 'top-right' : 'top-left');
+            ui.add(new ViewControl(Object.assign({ view }, (viewControlOptions || {}))), panelPosition === 'start' ? 'top-right' : 'top-left');
             if (nextBasemap)
                 this._createBasemapToggle();
             if (!shellPanel && panelWidgets && panelWidgets.length) {
@@ -905,6 +905,10 @@ let ViewControl = class ViewControl extends Widget {
     //////////////////////////////////////
     constructor(properties) {
         super(properties);
+        //////////////////////////////////////
+        // Properties
+        //////////////////////////////////////
+        this.fullscreenElement = document.body;
         this.includeFullscreen = false;
         this.includeLocate = false;
         this.includeMagnifier = false;
